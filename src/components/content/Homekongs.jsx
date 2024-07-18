@@ -15,29 +15,28 @@ const Homekongs = () => {
 
     useEffect(() => {
         const token = localStorage.getItem('token');
-        console.log('Token:', token);
+        console.log('Mã token:', token);
         if (!token) {
             navigate('/login');
         } else {
             const storedUserData = localStorage.getItem('userData');
-            console.log('Stored userData:', storedUserData);
+            console.log('Dữ liệu người dùng được lưu trữ:', storedUserData);
             if (storedUserData) {
                 const parsedUserData = JSON.parse(storedUserData);
-                console.log('Parsed userData:', parsedUserData);
+                console.log('Dữ liệu người dùng sau khi phân tích:', parsedUserData);
                 setUserData([parsedUserData]);
             } else {
-                console.log('No stored user data found.');
+                console.log('Không tìm thấy dữ liệu người dùng đã lưu trữ.');
             }
 
-            // Fetch leaderboard data
             fetchLeaderboardData()
                 .then(data => {
-                    console.log("Fetched leaderboard data:", data); 
+                    console.log("Dữ liệu bảng xếp hạng đã lấy về:", data); 
                     setLeaderboardData(data);
                     setLoading(false);
                 })
                 .catch(err => {
-                    console.error("Error fetching leaderboard data:", err);
+                    console.error("Lỗi khi lấy dữ liệu bảng xếp hạng:", err);
                     setError(err.message);
                     setLoading(false);
                 });
@@ -46,9 +45,9 @@ const Homekongs = () => {
 
     useEffect(() => {
         if (userData.length > 0) {
-            console.log("User data is set:", userData);
+            console.log("Dữ liệu người dùng đã được thiết lập:", userData);
         } else {
-            console.log("User data is not set");
+            console.log("Dữ liệu người dùng chưa được thiết lập");
         }
     }, [userData]);
 

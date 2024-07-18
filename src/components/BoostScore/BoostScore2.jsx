@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { FaStar, FaArrowLeft, FaChevronDown } from 'react-icons/fa';
 import image from '../../assets/Group 9.png';  // Đảm bảo đường dẫn chính xác tới tệp hình ảnh của bạn
 
-const BoostScores = () => {
+const BoostScores2 = () => {
   const [selected, setSelected] = useState(500);
 
   return (
@@ -47,4 +47,4 @@ const BoostScores = () => {
   );
 };
 
-export default BoostScores;
+export default BoostScores2;

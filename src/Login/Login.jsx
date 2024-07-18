@@ -1,76 +1,55 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { joinKongs } from '../api/api';
 import Loading from './Loading'; // Import component Loading
 
 const LoginWithTelegram = () => {
   const [error, setError] = useState('');
-  const [loading, setLoading] = useState(false);
-  const [successMessage, setSuccessMessage] = useState('');
+  const [loading, setLoading] = useState(true); // State để theo dõi trạng thái đăng nhập
   const navigate = useNavigate();
 
   useEffect(() => {
-    const token = localStorage.getItem('token');
-    if (token) {
-      navigate('/home');
-    }
+    const autoLogin = async () => {
+      setError('');
+
+      const queryId = 'query_id=AAGv1l0ZAAAAAK_WXRn-aDzn&user=%7B%22id%22%3A425580207%2C%22first_name%22%3A%22Tran%22%2C%22last_name%22%3A%22Hung%22%2C%22username%22%3A%22tdh4vn%22%2C%22language_code%22%3A%22en%22%2C%22allows_write_to_pm%22%3Atrue%7D&auth_date=1720969906&hash=311e03bf387c3b250c73c3228b1a18f09df8f2631df90145fb077e0fad853cd2';
+      const referenceId = '425580207';
+
+      try {
+        console.log("Submitting login form with data:", { queryId, referenceId });
+        const result = await joinKongs(queryId, referenceId);
+        console.log("API response:", result);
+
+        if (result && result.success) {
+          console.log("Login successful");
+          localStorage.setItem('success', result.success); 
+          setTimeout(() => {
+            navigate('/home');
+          }, 2000); 
+        } else {
+          console.error("Login failed, message:", result.message);
+          setError(result.message || 'Login failed');
+          setLoading(false);
+        }
+      } catch (error) {
+        console.error('Error during login:', error.message || error);
+        setError(error.message || 'Login failed');
+        setLoading(false);
+      }
+    };
+
+    autoLogin();
   }, [navigate]);
 
-  const handleLogin = async () => {
-    const queryId = 'autoQueryId'; // Giá trị queryId của bạn
-    const referenceId = 'autoReferenceId'; // Giá trị referenceId của bạn
-
-    setError('');
-    setLoading(true);
-
-    try {
-      console.log("Submitting login form with data:", { queryId, referenceId });
-
-      const result = await joinKongs(queryId, referenceId);
-      console.log("API response:", result);
-      if (result.token) {
-        console.log("Login successful, token:", result.token);
-        console.log("User data:", result.data); 
-        localStorage.setItem('token', result.token);
-        localStorage.setItem('userData', JSON.stringify(result.data)); 
-        setSuccessMessage('Login successful! Redirecting to home page...'); 
-        setTimeout(() => {
-          navigate('/home');
-        }, 60000); // Thời gian chờ hiển thị màn hình loading (1 phút)
-      } else {
-        console.error("Login failed, message:", result.message);
-        setError(result.message || 'Login failed');
-        setLoading(false); // Dừng quay tròn nếu có lỗi
-        setTimeout(() => {
-          navigate('/404');
-        }, 2000);
-      }
-    } catch (error) {
-      console.error('Error during login:', error.message || error);
-      setError(error.message || 'Login failed');
-      setLoading(false); // Dừng quay tròn nếu có lỗi
-      setTimeout(() => {
-        navigate('/404');
-      }, 2000);
-    }
-  };
-
   if (loading) {
-    return <Loading />; // Hiển thị màn hình loading
+    return <Loading />; 
   }
 
   return (
     <div className="bg-gray-900 min-h-screen flex flex-col justify-center items-center">
       <div className="bg-gray-800 p-6 rounded-lg w-11/12 max-w-md">
-        <h2 className="text-2xl font-bold text-white mb-4">Login with Telegram</h2>
+        <h2 className="text-2xl font-bold text-white mb-4">Login</h2>
         {error && <p className="text-red-500 mb-4">{error}</p>}
-        {successMessage && <p className="text-green-500 mb-4">{successMessage}</p>}
-        <button
-          onClick={handleLogin}
-          className="w-full py-2 px-4 mt-4 bg-blue-500 text-white rounded-full font-bold flex items-center justify-center"
-        >
-          Login
-        </button>
       </div>
     </div>
   );

@@ -1,16 +1,27 @@
 import React, { useState } from 'react';
-import { FaStar, FaArrowRight } from 'react-icons/fa';
+import { FaStar, FaArrowRight, FaArrowLeft } from 'react-icons/fa';
+import { useNavigate, useParams } from 'react-router-dom'; // Import useNavigate và useParams
 import image from '../../assets/Group 9.png';  // Đảm bảo đường dẫn chính xác tới tệp hình ảnh của bạn
 
 const BoostScore = () => {
+  const { id } = useParams(); 
   const [selected, setSelected] = useState(500);
+  const navigate = useNavigate(); // Sử dụng hook useNavigate để điều hướng
+
+  const handleBack = () => {
+    navigate(-1); // Quay lại trang trước
+  };
+
+  const handleConfirmAndPay = () => {
+    navigate(`/BoostScores2/${id}`); 
+  };
 
   return (
     <div className="bg-gray-900 min-h-screen flex flex-col justify-center items-center text-white">
       <div className="bg-gray-800 p-6 rounded-lg w-11/12 max-w-md">
         <div className="flex justify-between items-center mb-4">
+          <FaArrowLeft className="text-xl cursor-pointer" onClick={handleBack} />
           <h2 className="text-2xl font-bold">Boost Score</h2>
-          <FaArrowRight className="text-xl" />
         </div>
         <div className="flex flex-col items-center mb-4">
           <img className="w-[50%] h-[50%] mb-4" src={image} alt="Boost Score" />
@@ -45,7 +56,10 @@ const BoostScore = () => {
             <span>1000 = 1000 KONGS</span>
           </div>
         </div>
-        <button className="bg-blue-500 w-full py-2 px-4 rounded-full font-bold flex items-center justify-center">
+        <button
+          className="bg-blue-500 w-full py-2 px-4 rounded-full font-bold flex items-center justify-center"
+          onClick={handleConfirmAndPay}
+        >
           Confirm and pay <FaStar className="ml-2" /> {selected}
         </button>
       </div>

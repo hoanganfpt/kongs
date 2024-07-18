@@ -15,14 +15,14 @@ export const joinKongs = async (queryId, referenceId) => {
     console.log("Sending request to API with data:", { queryId, referenceId });
     const response = await fetch(BASE_URL, requestOptions);
     
-    // Log raw response for debugging
+    console.log("Raw response status:", response.status);
     console.log("Raw response:", response);
 
     const result = await response.json();
     console.log("Parsed JSON response:", result);
 
     if (!response.ok) {
-      console.error('Response not OK', response);
+      console.error('Response not OK', result);
       throw new Error(result.message || 'Error joining KONGS');
     }
 
@@ -30,7 +30,6 @@ export const joinKongs = async (queryId, referenceId) => {
   } catch (error) {
     console.error('Error joining KONGS:', error.message || error);
 
-    // Log additional error details if available
     if (error.response) {
       console.error('Error details:', await error.response.json());
     }

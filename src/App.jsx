@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, Link, useLocation } from 'react-router-dom';
 import Home from './components/home/Home';
 import './index.css'
 import Leaderboard from './components/Leaderboard/Leaderboard';
@@ -7,7 +7,7 @@ import Homekongs from './components/content/Homekongs';
 import InviteFriends from './components/Friends/Friends';
 import LoginWithTelegram from './Login/Login';
 import BoostScore from './components/BoostScore/BoostScore';
-import BoostScores from './components/BoostScore/BoostScore2';
+import BoostScores2 from './components/BoostScore/BoostScore2';
 
 const App = () => {
   return (
@@ -19,14 +19,20 @@ const App = () => {
             <Route path="/home" element={<Homekongs />} />
             <Route path="/Leaderboard" element={<Leaderboard />} />
             <Route path="/InviteFriends" element={<InviteFriends />} />
-            <Route path="/BoostScore" element={<BoostScore />} />
-            <Route path="/BoostScore2" element={<BoostScores />} />
-          </Routes>
+            <Route path="/BoostScore/:id" element={<BoostScore />} />
+            <Route path="/BoostScores2/:id" element={<BoostScores2 />} /> 
+            </Routes>
         </main>
-        <Home />
+        <ShowHome />
       </div>
     </Router>
   );
 };
+
+const ShowHome = () => {
+  const location = useLocation();
+  return location.pathname !== '/' ? <Home /> : null;
+};
+
 
 export default App;
