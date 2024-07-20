@@ -9,7 +9,7 @@ const BoostScore = () => {
   const navigate = useNavigate(); // Sử dụng hook useNavigate để điều hướng
 
   const handleBack = () => {
-    navigate(-1); // Quay lại trang trước
+    navigate(); // Quay lại trang trước
   };
 
   const handleConfirmAndPay = () => {
@@ -17,7 +17,7 @@ const BoostScore = () => {
   };
 
   return (
-    <div className="bg-gray-900 min-h-screen flex flex-col justify-center items-center text-white">
+    <div className=" min-h-screen flex flex-col justify-center items-center text-white">
       <div className="bg-gray-800 p-6 rounded-lg w-11/12 max-w-md">
         <div className="flex justify-between items-center mb-4">
           <FaArrowLeft className="text-xl cursor-pointer" onClick={handleBack} />

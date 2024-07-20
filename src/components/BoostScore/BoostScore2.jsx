@@ -6,7 +6,7 @@ const BoostScores2 = () => {
   const [selected, setSelected] = useState(500);
 
   return (
-    <div className="bg-gray-900 min-h-screen flex flex-col justify-center items-center text-white">
+    <div className=" min-h-screen flex flex-col justify-center items-center text-white">
       <div className="bg-gray-800 p-6 rounded-lg w-11/12 max-w-md">
         <div className="flex justify-between items-center mb-4">
           <FaArrowLeft className="text-xl cursor-pointer" />

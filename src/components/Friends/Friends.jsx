@@ -1,15 +1,47 @@
-// @flow 
-import React from 'react';
-import image from '../../assets/Layer_1.png'; // Đảm bảo rằng đường dẫn là chính xác
+import React, { useState, useEffect } from 'react';
+import image from '../../assets/Layer_1.png';
+import { getInvitees } from '../../api/api';
 
 const InviteFriends = () => {
+    const [invitees, setInvitees] = useState([]);
+
+    useEffect(() => {
+        fetchInvitees();
+    }, []);
+
+    const fetchInvitees = async () => {
+        try {
+            const result = await getInvitees();
+            console.log('Invitees data:', result);
+            setInvitees(result);
+        } catch (error) {
+            console.error('Failed to fetch invitees:', error);
+        }
+    };
+
     return (
-        <div className=" min-h-screen text-white flex flex-col items-center font-roboto">
-            <div className="flex mt-20 flex-col items-center w-11/12 max-w-md">
-                <h2 className="text-2xl font-bold mb-6 text-center">Invite friends and get more KONGS</h2>
+        <div className="min-h-screen bg-black text-white flex flex-col items-center font-dogs">
+            <div className="flex flex-col items-center w-11/12 max-w-md mt-10">
+                <h2 className="text-2xl font-bold mb-6 text-center">Invite friends and get more DOGS</h2>
                 <img className="w-[50%] h-[50%] mb-4" src={image} alt="Invite Friends" />
-                <p className="text-center mb-4">Tap on the button to invite your friends</p>
-                <button className="w-full bg-white text-black py-4 px-4 rounded-lg font-bold">Invite friends</button>
+                <div className="w-full mt-8">
+                    <h3 className="text-xl font-bold mb-4">Invitees</h3>
+                    {invitees.length === 0 ? (
+                        <p>No invitees</p>
+                    ) : (
+                        invitees.map((invitee, index) => (
+                            <div key={index} className="flex items-center justify-between mb-4">
+                                <div className="flex items-center">
+                                    <div className="w-10 h-10 bg-gray-500 rounded-full flex items-center justify-center text-lg">
+                                        {invitee.username.charAt(0).toUpperCase()}
+                                    </div>
+                                    <span className="ml-2">{invitee.username}</span>
+                                </div>
+                            </div>
+                        ))
+                    )}
+                </div>
+
             </div>
         </div>
     );

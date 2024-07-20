@@ -5,7 +5,7 @@ import { FaHome, FaTrophy, FaUserFriends } from 'react-icons/fa'; // Thêm các 
 const Home = () => {
   return (
     <div>
-      <nav className="bg-black p-4 fixed bottom-0 w-full">
+      <nav className="bg-black p-4  bottom-0 w-full">
 
         <ul className="flex justify-around text-white">
           <li className="flex flex-col items-center">
